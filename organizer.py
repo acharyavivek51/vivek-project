@@ -1,9 +1,25 @@
 import os
 import shutil
 
-folder = "test_folder"
+source_folder = "test_folder"
 
-if not os.path.exists(folder):
-    os.makedirs(folder)
+images = os.path.join(source_folder, "Images")
+docs = os.path.join(source_folder, "Documents")
 
-print("Folder ready:", folder)
+os.makedirs(images, exist_ok=True)
+os.makedirs(docs, exist_ok=True)
+
+# create test files
+open(os.path.join(source_folder, "photo.jpg"), "w").close()
+open(os.path.join(source_folder, "file.pdf"), "w").close()
+
+# move files
+for file in os.listdir(source_folder):
+	file_path = os.path.join(source_folder, file)
+
+	if file.endswith(".jpg"):
+		shutil.move(file_path, os.path.join(images, file))
+	elif file.endswith(".pdf"):
+		shutil.move(file_path, os.path.join(docs, file))
+
+print("Files organized successfully!")
